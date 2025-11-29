@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ตารางสอน ม.ต้น - โรงเรียนกุลสตรีศรีสวรรคโลก</title>
+    <link href="https://fonts.googleapis.com/css2?family=Charm:wght@700&family=Sarabun:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --main-gold: #c5a059;
+            --main-blue: #0f1e3d;
+            --bg-cream: #f9f7f2;
+            --text-dark: #333;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-cream);
+            background-image: radial-gradient(#e0dace 1px, transparent 1px);
+            background-size: 20px 20px; /* ลายจุดจางๆ พื้นหลัง */
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- ส่วนหัวเว็บไซต์ (Header) --- */
+        header {
+            background: linear-gradient(to bottom, #142850, #2c3e50);
+            color: white;
+            text-align: center;
+            padding-top: 40px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 5px solid var(--main-gold);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        /* ลายไทยพื้นหลังจางๆ */
+        .thai-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            z-index: 0;
+        }
+
+        /* กราฟิก พระปรางค์สามยอด และ เขาวงพระจันทร์ (วาดด้วย CSS) */
+        .landmark-silhouette {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ภูเขา (เขาวงพระจันทร์) */
+        .mountain {
+            position: absolute;
+            bottom: 0;
+            right: -50px;
+            width: 60%;
+            height: 100px;
+            background: #1e3a6e;
+            border-radius: 100% 0 0 0;
+            opacity: 0.8;
+        }
+        .moon {
+            position: absolute;
+            top: 20px;
+            right: 50px;
+            width: 40px;
+            height: 40px;
+            background: #fdfd96;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #fdfd96;
+            opacity: 0.9;
+        }
+
+        /* พระปรางค์สามยอด (จำลองด้วยรูปทรง) */
+        .prang-container {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            opacity: 0.6;
+        }
+        .prang {
+            width: 40px;
+            height: 80px;
+            background: #0a152b;
+            margin: 0 5px;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+        }
+        .prang.middle {
+            width: 50px;
+            height: 100px;
+            z-index: 2;
+        }
+        .prang::after { /* ยอดแหลม */
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 20px;
+            background: #0a152b;
+            border-radius: 50%;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 10;
+            padding-bottom: 50px;
+        }
+
+        h1 {
+            font-family: 'Charm', cursive; /* ฟอนต์ลายไทย */
+            font-size: 32px;
+            margin: 0;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            font-size: 16px;
+            font-weight: 300;
+            color: #d4af37; /* สีทอง */
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            background: rgba(0, 0, 0, 0.3);
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-top: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* --- กล่องเนื้อหา (Container) --- */
+        .container {
+            max-width: 900px;
+            margin: -30px auto 30px;
+            padding: 30px;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 20;
+            
+            /* กรอบลายไทยประยุกต์ (Double Border) */
+            border: 1px solid #c5a059;
+            outline: 4px solid white; 
+            outline-offset: -10px;
+        }
+
+        /* มุมกรอบไทย (ใช้ CSS สร้างสี่เหลี่ยมทอง) */
+        .corner {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--main-gold);
+            z-index: 25;
+            background: white;
+        }
+        .tl { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+        .tr { top: -2px; right: -2px; border-left: none; border-bottom: none; }
+        .bl { bottom: -2px; left: -2px; border-right: none; border-top: none; }
+        .br { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+
+        .level-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .level-header h3 {
+            font-family: 'Charm', cursive;
+            font-size: 24px;
+            color: var(--main-blue);
+            margin: 0;
+        }
+        .divider {
+            height: 3px;
+            width: 100px;
+            background: linear-gradient(to right, transparent, var(--main-gold), transparent);
+            margin: 10px auto;
+        }
+
+        /* Grid เมนู */
+        .grid-menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        /* ปุ่มกดดีไซน์ไทย */
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: white;
+            border: 1px solid #eee;
+            border-left: 6px solid #ddd;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* แถบสีตามระดับชั้น */
+        .m1 { border-left-color: #ffc107; } /* ม.1 สีเหลือง */
+        .m2 { border-left-color: #e91e63; } /* ม.2 สีชมพู */
+        .m3 { border-left-color: #2196f3; } /* ม.3 สีฟ้า */
+
+        .menu-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            background: #fffff0; /* สีครีมเมื่อเอาเมาส์ชี้ */
+        }
+
+        .btn-icon-box {
+            width: 50px;
+            height: 50px;
+            background: #f4f6f9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 15px;
+            color: var(--main-blue);
+            border: 1px solid #ddd;
+        }
+
+        .btn-text h4 {
+            margin: 0;
+            font-size: 18px;
+            color: var(--main-blue);
+        }
+
+        .btn-text p {
+            margin: 2px 0 0;
+            font-size: 13px;
+            color: #777;
+        }
+
+        .btn-arrow {
+            margin-left: auto;
+            color: var(--main-gold);
+            font-weight: bold;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s;
+        }
+
+        .menu-btn:hover .btn-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: auto;
+            background: #fff;
+            border-top: 4px solid var(--main-gold);
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .director-card {
+            display: inline-block;
+            background: white;
+            padding: 20px 40px;
+            border: 2px solid var(--main-gold);
+            outline: 2px solid var(--main-gold);
+            outline-offset: 4px;
+            position: relative;
+        }
+        
+        /* ลายประดับ Footer */
+        .director-card::before, .director-card::after {
+            content: "✦";
+            color: var(--main-gold);
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+        }
+        .director-card::before { left: 10px; }
+        .director-card::after { right: 10px; }
+
+        .director-name {
+            font-family: 'Charm', cursive;
+            font-size: 22px;
+            color: var(--main-blue);
+            font-weight: bold;
+        }
+        .director-pos {
+            font-size: 14px;
+            color: #555;
+            margin-top: 5px;
+        }
+
+        /* รองรับมือถือ */
+        @media (max-width: 600px) {
+            h1 { font-size: 26px; }
+            .container { padding: 20px 15px; margin-top: -20px;}
+            .menu-btn { padding: 12px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="thai-pattern"></div>
+        
+        <div class="landmark-silhouette">
+            <div class="moon"></div>
+            <div class="mountain"></div> <div class="prang-container"> <div class="prang"></div>
+                <div class="prang middle"></div>
+                <div class="prang"></div>
+            </div>
+        </div>
+
+        <div class="header-content">
+            <h1>โรงเรียนกุลสตรีศรีสวรรคโลก</h1>
+            <h2>สำนักงานเขตพื้นที่การศึกษามัธยมศึกษาลพบุรี</h2>
+            <div class="subtitle">ระบบตารางสอนออนไลน์ ภาคเรียนที่ 1/2568</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="corner tl"></div>
+        <div class="corner tr"></div>
+        <div class="corner bl"></div>
+        <div class="corner br"></div>
+
+        <div class="level-header">
+            <h3>เข้าสู่ห้องเรียนออนไลน์</h3>
+            <div class="divider"></div>
+            <p style="color: #666; font-size: 14px;">กรุณาเลือกระดับชั้นและห้องเรียน</p>
+        </div>
+
+        <div class="grid-menu">
+            <a href="https://chaiyawatritthidet1-prog.github.io/11/" class="menu-btn m1" target="_blank">
+                <div class="btn-icon-box">๑</div>
+                <div class="btn-text">
+                    <h4>มัธยมศึกษาปีที่ 1/1</h4>
+                    <p>คลิกเพื่อดูตารางเรียน</p>
+                </div>
+                <div class="btn-arrow">➜</div>
+            </a>
+
+            <a href="https://chaiyawatritthidet1-prog.github.io/13/" class="menu-btn m1" target="_blank">
+                <div class="btn-icon-box">๑</div>
+                <div class="btn-text">
+                    <h4>มัธยมศึกษาปีที่ 1/2</h4>
+                    <p>คลิกเพื่อดูตารางเรียน</p>
+                </div>
+                <div class="btn-arrow">➜</div>
+            </a>
+
+            <a href="https://chaiyawatritthidet1-prog.github.io/2-1/" class="menu-btn m2" target="_blank">
+                <div class="btn-icon-box">๒</div>
+                <div class="btn-text">
+                    <h4>มัธยมศึกษาปีที่ 2/1</h4>
+                    <p>คลิกเพื่อดูตารางเรียน</p>
+                </div>
+                <div class="btn-arrow">➜</div>
+            </a>
+
+            <a href="https://chaiyawatritthidet1-prog.github.io/22/" class="menu-btn m2" target="_blank">
+                <div class="btn-icon-box">๒</div>
+                <div class="btn-text">
+                    <h4>มัธยมศึกษาปีที่ 2/2</h4>
+                    <p>คลิกเพื่อดูตารางเรียน</p>
+                </div>
+                <div class="btn-arrow">➜</div>
+            </a>
+
+            <a href="https://chaiyawatritthidet1-prog.github.io/31/" class="menu-btn m3" target="_blank">
+                <div class="btn-icon-box">๓</div>
+                <div class="btn-text">
+                    <h4>มัธยมศึกษาปีที่ 3/1</h4>
+                    <p>คลิกเพื่อดูตารางเรียน</p>
+                </div>
+                <div class="btn-arrow">➜</div>
+            </a>
+
+            <a href="https://chaiyawatritthidet1-prog.github.io/32/" class="menu-btn m3" target="_blank">
+                <div class="btn-icon-box">๓</div>
+                <div class="btn-text">
+                    <h4>มัธยมศึกษาปีที่ 3/2</h4>
+                    <p>คลิกเพื่อดูตารางเรียน</p>
+                </div>
+                <div class="btn-arrow">➜</div>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="director-card">
+            <div class="director-name">นางสาว วรินพร ใจดี</div>
+            <div class="director-pos">
+                ครูชำนาญการพิเศษเชี่ยวชาญ<br>
+                รักษาการแทนผู้อำนวยการโรงเรียนกุลสตรีศรีสวรรคโลก
+            </div>
+        </div>
+        <p style="margin-top: 15px; font-size: 12px; color: #999;">© 2025 Kunlasatri Sri Sawan School. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
